@@ -4,18 +4,19 @@ const path = require('path')
 const fs = require('fs')
 const program = require('commander')
 const gulp = require('gulp')
-const pkginfo = require('pkginfo')(module, 'version')
-const gutil = require('gulp-util')
+const log = require('fancy-log')
+const colors = require('ansi-colors')
 
-function init() {
-  gutil.log(gutil.colors.red(`hugulp v${module.exports.version}`))
+require(path.join(fs.realpathSync(__dirname), 'gulp', 'build'))
+require(path.join(fs.realpathSync(__dirname), 'gulp', 'watch'))
+
+function init () {
+  log(colors.red(`hugulp v${module.exports.version}`))
 
   const hugulpRc = path.join(process.cwd(), '.hugulprc')
 
   if (fs.existsSync(hugulpRc)) {
-    gutil.log(
-      gutil.colors.yellow('.hugulprc already exists (initialization skipped)')
-    )
+    log(colors.yellow('.hugulprc already exists (initialization skipped)'))
     return
   }
 
@@ -54,29 +55,22 @@ function init() {
 
   fs.writeFileSync(hugulpRc, JSON.stringify(config, null, '  '))
 
-  gutil.log(
-    gutil.colors.green(
-      'hugulp has been initialized (.hugulprc was created with default values)'
-    )
-  )
+  log(colors.green('hugulp has been initialized (.hugulprc was created with default values)'))
 }
 
-function build() {
-  gutil.log(gutil.colors.red(`hugulp v${module.exports.version}`))
-
-  require(path.join(fs.realpathSync(__dirname), 'gulp', 'build'))
+function build () {
+  log(colors.red(`hugulp v${module.exports.version}`))
   gulp.start('build')
 }
 
-function watch() {
-  gutil.log(gutil.colors.red(`hugulp v${module.exports.version}`))
+function watch () {
+  log(colors.red(`hugulp v${module.exports.version}`))
 
-  require(path.join(fs.realpathSync(__dirname), 'gulp', 'watch'))
   gulp.start('watch')
 }
 
-function version() {
-  console.log('hugulp v' + module.exports.version)
+function version () {
+  log(`hugulp v${module.exports.version}`)
 }
 
 program

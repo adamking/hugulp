@@ -11,12 +11,10 @@ const less = require('gulp-less')
 const concat = require('gulp-concat')
 
 // parameters
-const config = JSON.parse(
-  fs.readFileSync(path.join(process.cwd(), '.hugulprc'))
-)
+const config = JSON.parse(fs.readFileSync(path.join(process.cwd(), '.hugulprc')))
 
 // helper functions
-function getStylesStreams() {
+function getStylesStreams () {
   const lessStream = gulp
     .src(path.join(config.watch.source, config.path.styles, '**/*.less')) // i.e.: assets/styles/**/*.less
     .pipe(less())
